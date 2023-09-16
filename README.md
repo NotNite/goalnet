@@ -23,7 +23,7 @@ path to the config file.
 ```shell
 $ cargo build --release
 $ dotnet build --configuration Release ./examples/hello-goalnet/HelloGoalnet
-$ cargo run --release --project goalnet-injector -- ./examples/hello-goalnet/config.toml
+$ cargo run --release -p goalnet-injector -- ./examples/hello-goalnet/config.toml
 ```
 
 ## Project setup
@@ -46,5 +46,4 @@ copied to a temporary directory. This is wasteful, but allows you to bypass file
 unload and reload the assembly without having to restart the target process.
 
 [dll-syringe]: <https://github.com/OpenByteDev/dll-syringe>
-
 [netcorehost]: <https://github.com/OpenByteDev/netcorehost>
