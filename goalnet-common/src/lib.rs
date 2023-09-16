@@ -70,7 +70,7 @@ pub fn relative_dir(config_path: &Path, dir: &Path) -> anyhow::Result<PathBuf> {
     if dir.is_relative() {
         let config_path = config_path.canonicalize()
             .context("failed to canonicalize config file path")?;
-        let mut config_dir = config_path.clone();
+        let mut config_dir = config_path;
         config_dir.pop();
         config_dir.push(dir);
         Ok(config_dir)

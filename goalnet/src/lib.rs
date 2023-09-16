@@ -80,9 +80,9 @@ fn load_internal(config_path_vec: Vec<u8>) -> anyhow::Result<()> {
     if config.entrypoint.unload {
         let init = loader
             .get_function::<fn(*const u8) -> ()>(
-                &*type_name,
-                &*method_name,
-                &*delegate_type_name,
+                &type_name,
+                &method_name,
+                &delegate_type_name,
             )
             .context("failed to get unload function")?;
 
@@ -90,9 +90,9 @@ fn load_internal(config_path_vec: Vec<u8>) -> anyhow::Result<()> {
     } else {
         let init = loader
             .get_function::<fn() -> ()>(
-                &*type_name,
-                &*method_name,
-                &*delegate_type_name,
+                &type_name,
+                &method_name,
+                &delegate_type_name,
             )
             .context("failed to get init function")?;
 
