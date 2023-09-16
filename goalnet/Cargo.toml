@@ -1,0 +1,18 @@
+[package]
+name = "goalnet"
+authors = ["NotNite <hi@notnite.com>"]
+description = "Easy .NET Core DLL injection"
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+dll-syringe = { workspace = true }
+dll-syringe-macros = { workspace = true }
+netcorehost = { workspace = true }
+goalnet-common = { workspace = true }
+anyhow = { workspace = true }
+msgbox = "0.7.0"

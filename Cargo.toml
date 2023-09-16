@@ -1,0 +1,10 @@
+[workspace]
+resolver = "1"
+members = ["goalnet", "goalnet-injector", "goalnet-common", "dll-syringe-macros"]
+
+[workspace.dependencies]
+goalnet-common = { path = "goalnet-common" }
+dll-syringe = { version = "0.15.2", features = ["payload-utils"] }
+dll-syringe-macros = { path = "dll-syringe-macros" }
+netcorehost = "0.15.1"
+anyhow = { version = "1.0.75", features = ["backtrace"] }

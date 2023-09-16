@@ -1,0 +1,13 @@
+[package]
+name = "goalnet-injector"
+authors = ["NotNite <hi@notnite.com>"]
+description = "Load goalnet into a process"
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.4.3", features = ["derive"] }
+sysinfo = "0.29.10"
+dll-syringe = { workspace = true }
+goalnet-common = { workspace = true }

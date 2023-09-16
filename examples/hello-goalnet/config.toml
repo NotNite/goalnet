@@ -1,0 +1,32 @@
+[goalnet]
+# You can set a custom payload here, otherwise it'll fall back to the default.
+# path = "../../target/debug/goalnet.dll"
+
+# Where to log if an error happens while loading goalnet.
+stderr_log = true
+msgbox_log = true
+
+[process]
+# Specify a name or PID.
+name = "notepad.exe"
+# pid = 42069
+
+[payload]
+# The directory, DLL, and runtime config where the payload is located.
+directory = "./HelloGoalnet/bin/Release/net7.0"
+dll = "HelloGoalnet.dll"
+runtime_config = "HelloGoalnet.runtimeconfig.json"
+
+# Whether to copy build artifacts into a temporary directory.
+# This is wasteful for large projects, but works around file locking.
+copy_build_artifacts = true
+
+[entrypoint]
+# Names for the entrypoint in your payload.
+type_name = "HelloGoalnet.Entrypoint, HelloGoalnet"
+method_name = "Main"
+delegate_type_name = "HelloGoalnet.Entrypoint+MainDelegate, HelloGoalnet"
+
+# Whether to pass the pointer to the unload method as a parameter.
+# This is useful if you want to unload the payload from within the payload itself.
+unload = true

@@ -1,0 +1,14 @@
+[package]
+name = "dll-syringe-macros"
+authors = ["NotNite <hi@notnite.com>"]
+description = "Macros to make dll-syringe payload procedures easier to use"
+license = "MIT"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote = "1.0.33"
+syn = { version = "2.0.35", features = ["full"] }
