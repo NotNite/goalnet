@@ -14,10 +14,13 @@ path = "src/lib.rs"
 name = "goalnet_injector"
 path = "src/main.rs"
 
+[features]
+embedded = []
+
 [dependencies]
 clap = { version = "4.4.3", features = ["derive"] }
 sysinfo = "0.29.10"
 dll-syringe = { workspace = true }
 goalnet-common = { workspace = true }
 anyhow = { workspace = true }
-oneshot = "0.1.6"
+goalnet = { workspace = true }

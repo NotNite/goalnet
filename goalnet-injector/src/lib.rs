@@ -9,10 +9,10 @@ use std::path::{Path, PathBuf};
 use std::sync::{Arc, Mutex};
 use sysinfo::{PidExt, ProcessExt, SystemExt};
 
-#[cfg(release)]
+#[cfg(all(feature = "embedded", release))]
 static GOALNET_DLL: &[u8] = include_bytes!("../../target/release/goalnet.dll");
 
-#[cfg(not(release))]
+#[cfg(all(feature = "embedded", not(release)))]
 static GOALNET_DLL: &[u8] = include_bytes!("../../target/debug/goalnet.dll");
 
 type Callback = Arc<Mutex<dyn FnMut() + Send + Sync>>;
@@ -84,7 +84,7 @@ impl GoalnetProcess {
                 }
 
                 if !self.syringe.process().is_alive() {
-                    anyhow::bail!("target process died while waiting for unload");
+                    anyhow::bail!("target process died while waiting for unload")
                 }
 
                 std::thread::sleep(std::time::Duration::from_millis(250));
@@ -151,11 +151,18 @@ pub fn inject(config_file: &Path) -> anyhow::Result<GoalnetProcess> {
             path
         }
     } else {
-        let temp = std::env::temp_dir().join(format!("{}.dll", goalnet_common::temp_filename()));
+        #[cfg(feature = "embedded")]
+        {
+            let temp =
+                std::env::temp_dir().join(format!("{}.dll", goalnet_common::temp_filename()));
+            std::fs::write(&temp, GOALNET_DLL).context("failed to write goalnet DLL")?;
+            temp
+        }
 
-        std::fs::write(&temp, GOALNET_DLL).context("failed to write goalnet DLL")?;
-
-        temp
+        #[cfg(not(feature = "embedded"))]
+        {
+            anyhow::bail!("goalnet path not specified in config file");
+        }
     };
 
     let pid = get_process(&config.process).context("failed to get target process pid")?;
