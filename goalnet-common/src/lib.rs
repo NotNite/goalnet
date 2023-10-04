@@ -1,13 +1,13 @@
-use std::path::{Path, PathBuf};
 use anyhow::Context;
 use serde::Deserialize;
+use std::path::{Path, PathBuf};
 
 // https://github.com/serde-rs/serde/issues/1030
 fn default_false() -> bool {
     false
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct Config {
     pub goalnet: ConfigGoalnet,
     pub process: ConfigProcess,
@@ -15,7 +15,7 @@ pub struct Config {
     pub entrypoint: ConfigEntrypoint,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct ConfigGoalnet {
     pub path: Option<String>,
 
@@ -26,13 +26,13 @@ pub struct ConfigGoalnet {
     pub msgbox_log: bool,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct ConfigProcess {
     pub name: Option<String>,
     pub pid: Option<u32>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct ConfigPayload {
     pub directory: PathBuf,
     pub dll: String,
@@ -42,7 +42,7 @@ pub struct ConfigPayload {
     pub copy_build_artifacts: bool,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 pub struct ConfigEntrypoint {
     pub type_name: String,
     pub method_name: String,
@@ -63,19 +63,19 @@ pub fn temp_filename() -> String {
         .unwrap_or(std::time::Duration::from_secs(0))
         .as_millis();
 
-    format!("goalnet-{}", unix_ms.to_string())
+    format!("goalnet-{}", unix_ms)
 }
 
 pub fn relative_dir(config_path: &Path, dir: &Path) -> anyhow::Result<PathBuf> {
     if dir.is_relative() {
-        let config_path = config_path.canonicalize()
+        let config_path = config_path
+            .canonicalize()
             .context("failed to canonicalize config file path")?;
         let mut config_dir = config_path;
         config_dir.pop();
         config_dir.push(dir);
         Ok(config_dir)
     } else {
-        dir.canonicalize()
-            .context("failed to canonicalize path")
+        dir.canonicalize().context("failed to canonicalize path")
     }
 }
